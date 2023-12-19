@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Markdown to HTML Converter</title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="themes/github.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/12.0.6/markdown-it.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.20.0/min/vs/loader.min.js"></script>
+    <style>
+        #container {
+            width: 800px;
+            height: 600px;
+            border: 1px solid grey;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container"></div>
+    <button onclick="convert()">Convert</button>
+    <div id="result"></div>
+
+    <script>
+        var editor;
+        require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.20.0/min/vs' } });
+        require(['vs/editor/editor.main'], function () {
+            editor = monaco.editor.create(document.getElementById('container'), {
+                // value: [
+                //     '# Hello Markdown'
+                // ].join('\n'),
+                language: 'markdown'
+            });
+        });
+
+        function convert() {
+            var md = window.markdownit();
+            var result = md.render(editor.getValue());
+            document.getElementById('result').innerHTML = result;
+        }
+    </script>
+
+
+</body>
+
+</html>
